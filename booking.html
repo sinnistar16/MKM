@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Session - Mfana ka Maluleke Photography</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* DARK MINIMAL THEME - SETMORE STYLE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background-color: #000000;
+            border-bottom: 1px solid #222222;
+            padding: 1rem 2rem;
+        }
+
+        .navbar-brand {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .cart-icon-nav {
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 1rem;
+        }
+
+        .cart-icon-nav:hover {
+            opacity: 0.7;
+        }
+
+        /* HEADER */
+        .booking-header {
+            background: #000000;
+            padding: 2rem;
+            border-bottom: 1px solid #222222;
+            text-align: center;
+        }
+
+        .booking-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .booking-header p {
+            color: #888888;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* MAIN LAYOUT */
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .form-section {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        /* FORM ELEMENTS */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            display: block;
+        }
+
+        .form-control, .service-dropdown {
+            background-color: #111111;
+            border: 1px solid #333333;
+            color: #ffffff;
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus, .service-dropdown:focus {
+            background-color: #1a1a1a;
+            border-color: #ffffff;
+            color: #ffffff;
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.05);
+        }
+
+        .form-control::placeholder {
+            color: #555555;
+        }
+
+        .option-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: #111111;
+            border: 1px solid #333333;
+            border-radius: 6px;
+            padding: 0.85rem 1rem;
+            cursor: pointer;
+            transition: border-color 0.3s, background-color 0.3s;
+            color: #ffffff;
+        }
+
+        .option-item:hover {
+            border-color: #555555;
+            background-color: #1a1a1a;
+        }
+
+        .option-item input {
+            accent-color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        .map-wrapper {
+            border: 1px solid #333333;
+            border-radius: 6px;
+            overflow: hidden;
+            height: 260px;
+        }
+
+        .map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* PACKAGE LIST */
+        .package-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .package-item {
+            background-color: #111111;
+            border: 1px solid #333333;
+            padding: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .package-item:hover {
+            border-color: #555555;
+            background-color: #1a1a1a;
+        }
+
+        .package-item.selected {
+            border-color: #ffffff;
+            background-color: #222222;
+        }
+
+        .package-name {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .package-details {
+            font-size: 0.85rem;
+            color: #888888;
+        }
+
+        .package-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 0.5rem;
+        }
+
+        /* BUTTONS */
+        .btn-next {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+
+        .btn-next:hover:not(:disabled) {
+            background-color: #f0f0f0;
+        }
+
+        .btn-next:disabled {
+            background-color: #555555;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .btn-prev {
+            background-color: #222222;
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 4px;
+            border: 1px solid #333333;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 1rem;
+        }
+
+        .btn-prev:hover {
+            background-color: #333333;
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: #ffffff;
+            padding: 0.85rem 2rem;
+            font-weight: 600;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-whatsapp:hover:not(:disabled) {
+            background-color: #20ba58;
+        }
+
+        .btn-whatsapp:disabled {
+            background-color: #666666;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* CART SIDEBAR */
+        .cart-sidebar {
+            background-color: #111111;
+            border: 1px solid #222222;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .cart-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            border-bottom: 1px solid #222222;
+            padding-bottom: 0.8rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #1a1a1a;
+            color: #888888;
+            font-size: 0.85rem;
+        }
+
+        .cart-item-value {
+            text-align: right;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.2rem 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-top: 1px solid #333333;
+            color: #ffffff;
+            margin-top: 0.8rem;
+        }
+
+        .cart-note {
+            background-color: transparent;
+            border-left: 3px solid #555555;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            font-size: 0.8rem;
+            color: #888888;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-sidebar {
+                position: static;
+                margin-bottom: 2rem;
+                top: auto;
+            }
+
+            .option-row {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.75rem 1rem;
+            }
+
+            .booking-header {
+                padding: 1.5rem 1rem;
+            }
+
+            .booking-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .booking-header p {
+                font-size: 0.95rem;
+            }
+
+            .booking-container {
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.25rem;
+            }
+
+            .location-input-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .location-add-button {
+                width: 100%;
+            }
+
+            .map-wrapper {
+                height: 220px;
+            }
+
+            .cart-item {
+                flex-wrap: wrap;
+                gap: 0.4rem;
+            }
+
+            .btn-prev {
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 0.65rem 0.75rem;
+            }
+
+            .cart-icon-nav {
+                font-size: 1.1rem;
+            }
+
+            .booking-header {
+                padding: 1.2rem 0.75rem;
+            }
+
+            .booking-container {
+                padding: 0.8rem;
+            }
+
+            .package-item,
+            .cart-sidebar,
+            .form-section {
+                border-radius: 0;
+            }
+
+            .map-wrapper {
+                height: 200px;
+            }
+
+            .step-title {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-dark" style="background-color: #000000; border-bottom: 1px solid #222222; display: flex; justify-content: flex-start; align-items: center;">
+        <a class="navbar-brand" href="index.html">← Back to Home</a>
+    </nav>
+
+    <!-- HEADER -->
+    <div class="booking-header">
+        <h1>Book a Photography Session</h1>
+        <p>Select your service, package, and details below</p>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="booking-container">
+        <!-- FORM -->
+        <div class="form-section">
+            <div class="form-group">
+                <label class="form-label">Select Service</label>
+                <select id="serviceDropdown" class="service-dropdown" onchange="selectService(this.value); updatePackages();">
+                    <option value="">-- Choose a service --</option>
+                    <option value="Portrait Photography">Portrait Photography</option>
+                    <option value="Graduation Photoshoot">Graduation Photoshoot</option>
+                    <option value="Matric Dance Photoshoot">Matric Dance Photoshoot</option>
+                    <option value="Events & Wedding Services">Events & Wedding Services</option>
+                    <option value="Champagne Photoshoot">Champagne Photoshoot</option>
+                    <option value="Drone Photography">Drone Photography</option>
+                    <option value="Videography">Videography</option>
+                </select>
+            </div>
+
+            <div id="packageSection" style="display: none;">
+                <h3 class="step-title">Select Package</h3>
+                <div class="package-list" id="packageList"></div>
+            </div>
+
+            <div id="sessionTypeSection" style="display: none; margin-top: 2rem;">
+                <h3 class="step-title">Session Type</h3>
+                <div class="form-group">
+                    <div class="option-row">
+                        <label class="option-item">
+                            <input type="radio" name="sessionType" value="Studio" onchange="selectSessionType(this.value)" checked>
+                            Studio
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="sessionType" value="Call Out" onchange="selectSessionType(this.value)">
+                            Call Out
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="outfitSection" style="display: none; margin-top: 2rem;">
+                <h3 class="step-title">Outfit Options</h3>
+                <div class="form-group">
+                    <label class="form-label">Number of outfits (R300 each)</label>
+                    <select id="outfitCount" class="service-dropdown" onchange="updateOutfits()">
+                        <option value="1">1 Outfit</option>
+                        <option value="2">2 Outfits</option>
+                        <option value="3">3 Outfits</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="backdropSection" style="display: none; margin-top: 2rem;">
+                <h3 class="step-title">Backdrop Colour</h3>
+                <div class="form-group">
+                    <label class="form-label">Choose studio backdrop</label>
+                    <select id="backdropColor" class="service-dropdown" onchange="updateBackdrop()">
+                        <option value="White">White (free)</option>
+                        <option value="Red">Red</option>
+                        <option value="Orange">Orange</option>
+                        <option value="Brown">Brown</option>
+                        <option value="Blue">Blue</option>
+                        <option value="Grey">Grey</option>
+                        <option value="Yellow">Yellow</option>
+                        <option value="Pink">Pink</option>
+                        <option value="Dark Charcoal">Dark Charcoal</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="outdoorSection" style="display: none; margin-top: 2rem;">
+                <h3 class="step-title">Call Out Location</h3>
+                <div class="form-group">
+                    <label class="form-label">Outdoor location 1</label>
+                    <div class="location-input-row">
+                        <input type="text" class="form-control" id="outdoorLocation1" placeholder="Type location and map will update" oninput="updateMapSearch(this.value); updateCart()">
+                        <button type="button" class="location-add-button" id="addLocationButton" onclick="showSecondLocation()">+ Add location</button>
+                    </div>
+                </div>
+                <div class="form-group" id="location2Group" style="display: none;">
+                    <label class="form-label">Outdoor location 2</label>
+                    <input type="text" class="form-control" id="outdoorLocation2" placeholder="Optional second call-out location" oninput="updateMapSearch(this.value); updateCart()">
+                </div>
+                <div style="color: #888888; font-size: 0.9rem; margin-bottom: 1rem;">
+                    Type your outdoor location to update the map automatically. Add a second spot if needed.
+                </div>
+                <div class="map-wrapper">
+                    <iframe id="locationMap" src="https://www.google.com/maps?q=Arcadia+Pretoria&output=embed" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+
+            <div id="detailsSection" style="display: none; margin-top: 2rem;">
+                <h3 class="step-title">Your Details</h3>
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="clientName" placeholder="Your full name" onchange="updateCart()">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="clientPhone" placeholder="+27 76 294 2783" onchange="updateCart()">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" id="clientEmail" placeholder="your.email@example.com" onchange="updateCart()">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Preferred Date</label>
+                    <input type="date" class="form-control" id="clientDate" onchange="updateCart()">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Preferred Time</label>
+                    <input type="time" class="form-control" id="clientTime" onchange="updateCart()">
+                </div>
+            </div>
+
+            <div id="submitSection" style="display: none; margin-top: 2rem;">
+                <button type="button" class="btn-whatsapp" onclick="sendToWhatsApp()">Send Booking to WhatsApp</button>
+                <button type="button" class="btn-prev" onclick="resetForm()" style="width: 100%; margin-top: 1rem; background-color: #333333;">Start Over</button>
+            </div>
+        </div>
+
+        <!-- CART SIDEBAR -->
+        <div class="cart-sidebar">
+            <div class="cart-title">Booking Summary</div>
+
+            <div class="cart-item">
+                <span>Service</span>
+                <span class="cart-item-value" id="cartService">—</span>
+            </div>
+
+            <div class="cart-item" id="cartPackageRow" style="display: none;">
+                <span>Package</span>
+                <span class="cart-item-value" id="cartPackage">—</span>
+            </div>
+
+            <div class="cart-item" id="cartSessionTypeRow" style="display: none;">
+                <span>Session Type</span>
+                <span class="cart-item-value" id="cartSessionType">—</span>
+            </div>
+
+            <div class="cart-item" id="cartOutfitRow" style="display: none;">
+                <span>Outfits</span>
+                <span class="cart-item-value" id="cartOutfits">—</span>
+            </div>
+
+            <div class="cart-item" id="cartOutfitCostRow" style="display: none;">
+                <span>Outfit fee</span>
+                <span class="cart-item-value" id="cartOutfitCost">R0</span>
+            </div>
+
+            <div class="cart-item" id="cartBackdropRow" style="display: none;">
+                <span>Backdrop</span>
+                <span class="cart-item-value" id="cartBackdrop">—</span>
+            </div>
+
+            <div class="cart-item" id="cartBackdropCostRow" style="display: none;">
+                <span>Backdrop fee</span>
+                <span class="cart-item-value" id="cartBackdropCost">R0</span>
+            </div>
+
+            <div class="cart-item" id="cartPriceRow" style="display: none;">
+                <span>Base Price</span>
+                <span class="cart-item-value" id="cartPrice">R0</span>
+            </div>
+
+            <div class="cart-item" id="cartLocationRow" style="display: none;">
+                <span>Location</span>
+                <span class="cart-item-value" id="cartLocation">—</span>
+            </div>
+
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cartTotal">R0</span>
+            </div>
+
+            <div class="cart-note">
+                Location fees may apply. Final pricing will be confirmed via WhatsApp.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Setmore-based packages
+        const packages = {
+            "Portrait Photography": [
+                { name: "Portrait Session", price: 800, duration: "1 hour", description: "Studio or outdoor portrait session" },
+                { name: "Extended Session", price: 1200, duration: "2 hours", description: "Extended session with multiple looks" }
+            ],
+            "Graduation Photoshoot": [
+                { name: "Standard Graduation", price: 1000, duration: "1.5 hours", description: "Graduation photos with robes" },
+                { name: "Premium Graduation", price: 1500, duration: "2.5 hours", description: "Extended session with family photos" }
+            ],
+            "Matric Dance Photoshoot": [
+                { name: "Event Coverage", price: 1500, duration: "Full Night", description: "Candid event photography" },
+                { name: "Premium Coverage", price: 2000, duration: "Full Night + Edits", description: "Premium coverage with same-day edits" }
+            ],
+            "Events & Wedding Services": [
+                { name: "Half Day", price: 2000, duration: "4 hours", description: "Half-day event coverage" },
+                { name: "Full Day", price: 3500, duration: "8 hours", description: "Full-day event coverage" }
+            ],
+            "Champagne Photoshoot": [
+                { name: "Champagne Session", price: 1200, duration: "1 hour", description: "Glamorous celebration photoshoot" },
+                { name: "Extended Champagne", price: 1800, duration: "2 hours", description: "Extended luxury photoshoot" }
+            ],
+            "Drone Photography": [
+                { name: "Drone Session", price: 1500, duration: "1 hour", description: "Aerial photography coverage" },
+                { name: "Drone + Video", price: 2200, duration: "2 hours", description: "Aerial photos and cinematic video" }
+            ],
+            "Videography": [
+                { name: "Event Videography", price: 2000, duration: "4 hours", description: "Professional event video" },
+                { name: "Cinematic Package", price: 3000, duration: "Full day", description: "Full day cinematic videography" }
+            ]
+        };
+
+        let bookingState = {
+            service: null,
+            package: null,
+            packagePrice: 0,
+            sessionType: 'Studio',
+            outfits: 1,
+            backdrop: 'White',
+            outdoorLocation1: '',
+            outdoorLocation2: '',
+            clientName: '',
+            clientPhone: '',
+            clientEmail: '',
+            clientDate: '',
+            clientTime: ''
+        };
+
+        function selectService(service) {
+            if (!service) return;
+            bookingState.service = service;
+            bookingState.package = null;
+            bookingState.packagePrice = 0;
+            bookingState.outdoorLocation1 = '';
+            bookingState.outdoorLocation2 = '';
+            updatePackages();
+            updateCart();
+        }
+
+        function updatePackages() {
+            const packageSection = document.getElementById('packageSection');
+            const packageList = document.getElementById('packageList');
+            
+            if (!bookingState.service || !packages[bookingState.service]) {
+                packageSection.style.display = 'none';
+                document.getElementById('sessionTypeSection').style.display = 'none';
+                document.getElementById('outfitSection').style.display = 'none';
+                document.getElementById('backdropSection').style.display = 'none';
+                document.getElementById('outdoorSection').style.display = 'none';
+                document.getElementById('detailsSection').style.display = 'none';
+                document.getElementById('submitSection').style.display = 'none';
+                return;
+            }
+
+            packageList.innerHTML = '';
+            packages[bookingState.service].forEach(pkg => {
+                const item = document.createElement('div');
+                item.className = 'package-item';
+                item.innerHTML = `
+                    <div class="package-name">${pkg.name}</div>
+                    <div class="package-details">${pkg.duration} • ${pkg.description}</div>
+                    <div class="package-price">R${pkg.price}</div>
+                `;
+                item.onclick = () => selectPackage(pkg.name, pkg.price, item);
+                packageList.appendChild(item);
+            });
+
+            packageSection.style.display = 'block';
+            document.getElementById('sessionTypeSection').style.display = 'block';
+            document.getElementById('outfitSection').style.display = 'block';
+            document.getElementById('detailsSection').style.display = 'block';
+            document.getElementById('submitSection').style.display = 'block';
+            if (bookingState.sessionType === 'Studio') {
+                document.getElementById('backdropSection').style.display = 'block';
+                document.getElementById('outdoorSection').style.display = 'none';
+            } else {
+                document.getElementById('backdropSection').style.display = 'none';
+                document.getElementById('outdoorSection').style.display = 'block';
+            }
+        }
+
+        function selectPackage(name, price, element) {
+            bookingState.package = name;
+            bookingState.packagePrice = price;
+            
+            document.querySelectorAll('.package-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            
+            updateCart();
+        }
+
+        function selectSessionType(type) {
+            bookingState.sessionType = type;
+            if (type === 'Studio') {
+                document.getElementById('backdropSection').style.display = 'block';
+                document.getElementById('outdoorSection').style.display = 'none';
+            } else {
+                document.getElementById('backdropSection').style.display = 'none';
+                document.getElementById('outdoorSection').style.display = 'block';
+                updateMapSearch(document.getElementById('outdoorLocation1').value || 'Arcadia Pretoria');
+            }
+            updateCart();
+        }
+
+        function updateOutfits() {
+            bookingState.outfits = Math.min(Math.max(parseInt(document.getElementById('outfitCount').value, 10) || 1, 1), 3);
+            updateCart();
+        }
+
+        function updateBackdrop() {
+            bookingState.backdrop = document.getElementById('backdropColor').value;
+            updateCart();
+        }
+
+        function updateMapSearch(query) {
+            const map = document.getElementById('locationMap');
+            const search = query && query.trim() ? query.trim() : 'Arcadia Pretoria';
+            map.src = `https://www.google.com/maps?q=${encodeURIComponent(search)}&output=embed`;
+        }
+
+        function showSecondLocation() {
+            document.getElementById('location2Group').style.display = 'block';
+            document.getElementById('addLocationButton').style.display = 'none';
+            document.getElementById('outdoorLocation2').focus();
+            updateCart();
+        }
+
+        function getBackdropFee() {
+            return bookingState.sessionType === 'Studio' && bookingState.backdrop !== 'White' ? 200 : 0;
+        }
+
+        function calculateTotal() {
+            return bookingState.packagePrice + (bookingState.outfits * 300) + getBackdropFee();
+        }
+
+        function updateCart() {
+            document.getElementById('cartService').textContent = bookingState.service || '—';
+
+            if (bookingState.package) {
+                document.getElementById('cartPackageRow').style.display = 'flex';
+                document.getElementById('cartPackage').textContent = bookingState.package;
+                document.getElementById('cartPriceRow').style.display = 'flex';
+                document.getElementById('cartPrice').textContent = `R${bookingState.packagePrice}`;
+            } else {
+                document.getElementById('cartPackageRow').style.display = 'none';
+                document.getElementById('cartPriceRow').style.display = 'none';
+            }
+
+            if (bookingState.sessionType) {
+                document.getElementById('cartSessionTypeRow').style.display = 'flex';
+                document.getElementById('cartSessionType').textContent = bookingState.sessionType;
+            } else {
+                document.getElementById('cartSessionTypeRow').style.display = 'none';
+            }
+
+            if (bookingState.outfits) {
+                document.getElementById('cartOutfitRow').style.display = 'flex';
+                document.getElementById('cartOutfits').textContent = `${bookingState.outfits} outfit${bookingState.outfits > 1 ? 's' : ''}`;
+                document.getElementById('cartOutfitCostRow').style.display = 'flex';
+                document.getElementById('cartOutfitCost').textContent = `R${bookingState.outfits * 300}`;
+            } else {
+                document.getElementById('cartOutfitRow').style.display = 'none';
+                document.getElementById('cartOutfitCostRow').style.display = 'none';
+            }
+
+            if (bookingState.sessionType === 'Studio') {
+                document.getElementById('cartBackdropRow').style.display = 'flex';
+                document.getElementById('cartBackdrop').textContent = bookingState.backdrop;
+                const backdropFee = getBackdropFee();
+                document.getElementById('cartBackdropCostRow').style.display = 'flex';
+                document.getElementById('cartBackdropCost').textContent = `R${backdropFee}`;
+                document.getElementById('cartLocationRow').style.display = 'none';
+            } else if (bookingState.sessionType === 'Call Out') {
+                document.getElementById('cartBackdropRow').style.display = 'none';
+                document.getElementById('cartBackdropCostRow').style.display = 'none';
+                const location1 = document.getElementById('outdoorLocation1').value.trim();
+                const location2 = document.getElementById('outdoorLocation2').value.trim();
+                const locationText = location1 && location2 ? `${location1} / ${location2}` : (location1 || location2);
+                document.getElementById('cartLocationRow').style.display = locationText ? 'flex' : 'none';
+                document.getElementById('cartLocation').textContent = locationText || '—';
+            } else {
+                document.getElementById('cartBackdropRow').style.display = 'none';
+                document.getElementById('cartBackdropCostRow').style.display = 'none';
+                document.getElementById('cartLocationRow').style.display = 'none';
+            }
+
+            document.getElementById('cartTotal').textContent = `R${calculateTotal()}`;
+        }
+
+        function sendToWhatsApp() {
+            bookingState.clientName = document.getElementById('clientName').value;
+            bookingState.clientPhone = document.getElementById('clientPhone').value;
+            bookingState.clientEmail = document.getElementById('clientEmail').value;
+            bookingState.clientDate = document.getElementById('clientDate').value;
+            bookingState.clientTime = document.getElementById('clientTime').value;
+            bookingState.outdoorLocation1 = document.getElementById('outdoorLocation1').value.trim();
+            bookingState.outdoorLocation2 = document.getElementById('outdoorLocation2').value.trim();
+
+            if (!bookingState.service || !bookingState.package || !bookingState.clientName || !bookingState.clientPhone) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            if (bookingState.sessionType === 'Call Out' && !bookingState.outdoorLocation1 && !bookingState.outdoorLocation2) {
+                alert('Please enter at least one outdoor location for call out sessions.');
+                return;
+            }
+
+            const locationText = bookingState.sessionType === 'Call Out'
+                ? bookingState.outdoorLocation2
+                    ? `${bookingState.outdoorLocation1} / ${bookingState.outdoorLocation2}`
+                    : bookingState.outdoorLocation1
+                : 'Studio session';
+
+            const backdropFee = getBackdropFee();
+            const receipt = `BOOKING REQUEST — Mfana ka Maluleke Photography
+
+Client Information:
+Name: ${bookingState.clientName}
+Phone: ${bookingState.clientPhone}
+Email: ${bookingState.clientEmail}
+
+Booking Details:
+Date: ${bookingState.clientDate}
+Time: ${bookingState.clientTime}
+Service: ${bookingState.service}
+Package: ${bookingState.package}
+Session Type: ${bookingState.sessionType}
+Outfits: ${bookingState.outfits}
+${bookingState.sessionType === 'Studio' ? `Backdrop: ${bookingState.backdrop}
+Backdrop fee: R${backdropFee}
+` : `Location(s): ${locationText}
+`}
+Package Price: R${bookingState.packagePrice}
+Outfit Fee: R${bookingState.outfits * 300}
+Total: R${calculateTotal()}
+
+Booked via mfanakamaluleke.co.za`;
+
+            const encodedMessage = encodeURIComponent(receipt);
+            window.open(`https://wa.me/27762942783?text=${encodedMessage}`, '_blank');
+        }
+
+        function resetForm() {
+            document.getElementById('serviceDropdown').value = '';
+            document.getElementById('outfitCount').value = '1';
+            document.getElementById('backdropColor').value = 'White';
+            document.getElementById('outdoorLocation1').value = '';
+            document.getElementById('outdoorLocation2').value = '';
+            document.getElementById('location2Group').style.display = 'none';
+            document.getElementById('addLocationButton').style.display = 'inline-flex';
+            document.getElementById('locationMap').src = 'https://www.google.com/maps?q=Arcadia+Pretoria&output=embed';
+            document.querySelector('input[name="sessionType"][value="Studio"]').checked = true;
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientPhone').value = '';
+            document.getElementById('clientEmail').value = '';
+            document.getElementById('clientDate').value = '';
+            document.getElementById('clientTime').value = '';
+            
+            bookingState = {
+                service: null,
+                package: null,
+                packagePrice: 0,
+                sessionType: 'Studio',
+                outfits: 1,
+                backdrop: 'White',
+                outdoorLocation1: '',
+                outdoorLocation2: '',
+                clientName: '',
+                clientPhone: '',
+                clientEmail: '',
+                clientDate: '',
+                clientTime: ''
+            };
+
+            document.getElementById('packageSection').style.display = 'none';
+            document.getElementById('sessionTypeSection').style.display = 'none';
+            document.getElementById('outfitSection').style.display = 'none';
+            document.getElementById('backdropSection').style.display = 'none';
+            document.getElementById('outdoorSection').style.display = 'none';
+            document.getElementById('detailsSection').style.display = 'none';
+            document.getElementById('submitSection').style.display = 'none';
+            
+            updateCart();
+        }
+
+        // Initialize
+        updateCart();
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
